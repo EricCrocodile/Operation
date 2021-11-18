@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "課程資訊";
+}
+
+<h2>課程資訊</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">課號</label>
+                </div>
+                <input type="text" class="form-control" placeholder="課號" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">課名</label>
+                </div>
+                <input type="text" class="form-control" placeholder="課名" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">學分數</label>
+                </div>
+                <input type="text" class="form-control" placeholder="學分數" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">上課地點</label>
+                </div>
+                <input type="text" class="form-control" placeholder="上課地點" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">講師名字</label>
+                </div>
+                <input type="text" class="form-control" placeholder="講師名字" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 col-md-4">
+            <button type="button" class="btn btn-dark">新增</button>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@string.Format("@mdo")</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@string.Format("@fat") </td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@string.Format("@twitter")</td>
+        </tr>
+    </tbody>
+</table>
+

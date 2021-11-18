@@ -22,8 +22,8 @@
                         資料設定
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">學生資訊</a>
-                        <a class="dropdown-item" href="#">課程資訊</a>
+                        @Html.ActionLink("學生資訊", "StudentInfo", "DataCenter", new { area = "" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("課程資訊", "CourseInformation", "DataCenter", new { area = "" }, new { @class = "dropdown-item" })
                     </div>
                 </li>
             </ul>

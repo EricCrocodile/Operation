@@ -8,8 +8,13 @@ namespace Operation.CourseSelection.Controllers
 {
     public class DataCenterController : Controller
     {
-        // GET: DataCenter
-        public ActionResult Index()
+        
+        public ActionResult StudentInfo()
+        {
+            return View();
+        }
+
+        public ActionResult CourseInformation()
         {
             return View();
         }
