@@ -15,15 +15,15 @@ namespace Operation.CourseSelection.Controllers
 			return View();
 		}
 
-		public ActionResult CourseInformation()
-		{
-			return View();
-		}
-
 		public JsonResult GetStudentList()
 		{
 			var studentlist = new StudentService().GetStudents();
 			return Json(studentlist, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult CourseInformation()
+		{
+			return View();
 		}
 	}
 }

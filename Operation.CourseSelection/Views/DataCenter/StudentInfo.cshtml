@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "學生資訊";
 }
-<h2>學生資訊</h2>
+<h2 class="">學生資訊</h2>
 
 <div class="container">
     <div class="row">
@@ -41,41 +41,61 @@
             </div>
         </div>
         <div class="col-6 col-md-4">
-            <button type="button" class="btn btn-dark">新增</button>
+            <button type="button" class="btn btn-info">新增</button>
         </div>
     </div>
 </div>
 
 <hr />
 
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@string.Format("@mdo")</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@string.Format("@fat") </td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@string.Format("@twitter")</td>
-        </tr>
-    </tbody>
-</table>
+<div id="studentTable">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">學號</th>
+                <th scope="col">姓名</th>
+                <th scope="col">生日</th>
+                <th scope="col">Email</th>
+                <th scope="col">功能</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="stud in studentlist" :key="stud.id">
+                <td>{{stud.ID}}</td>
+                <td>{{stud.Name}}</td>
+                <td>{{stud.Birthday}}</td>
+                <td>{{stud.Email}}</td>
+                <td>
+                    <button type="button" class="btn btn-success" :value="stud.ID">修改</button>
+                    <button type="button" class="btn btn-danger" :value="stud.ID">刪除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        var app = new Vue({
+            el: "#studentTable",
+            data: {
+                testdata: "Hello Vue",
+                studentlist :[]
+            },
+            created: function () {
+                $.ajax({
+                    url: "@Url.Content("~/DataCenter/GetStudentList")",
+                    type: "get",
+                    dataType: "json",
+                    timeout: 10000,
+                    success: function (respons) {
+                        console.table(respons);
+                        app.studentlist = respons;
+                    }
+                });
+            }
+        })
+    </script>
+}
 

@@ -13,7 +13,7 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		public StudentService()
 		{
 			//todo 加入IStudentRepository的繫結
-			_studentRepo = new FakeStudentRepo();
+			_studentRepo = null;
 		}
 
 		public List<StudentVM> GetStudents()
@@ -25,43 +25,10 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 	interface IStudentRepository
 	{
 		List<StudentVM> GetStudenList();
+		void AddStudent(string id, string name, DateTime birth, string email);
+		void UpdateStudent(string id, string name, DateTime birth, string email);
+		void DeleteStudent(string id);
 	}
 
-	class FakeStudentRepo : IStudentRepository
-	{
-		public List<StudentVM> GetStudenList()
-		{
-			return new List<StudentVM>()
-			{
-				new StudentVM()
-				{
-					ID = "S0001",
-					Name = "Eric",
-					Birthday = new DateTime(2021,01,01),
-					Email = "a@gmail.com"
-				},
-				new StudentVM()
-				{
-					ID = "S0002",
-					Name = "Andy",
-					Birthday = new DateTime(2021,01,01),
-					Email = "b@gmail.com"
-				},
-				new StudentVM()
-				{
-					ID = "S0003",
-					Name = "Emily",
-					Birthday = new DateTime(2021,01,01),
-					Email = "c@gmail.com"
-				},
-				new StudentVM()
-				{
-					ID = "S0004",
-					Name = "Tracy",
-					Birthday = new DateTime(2021,01,01),
-					Email = "d@gmail.com"
-				},
-			};
-		}
-	}
+
 }
