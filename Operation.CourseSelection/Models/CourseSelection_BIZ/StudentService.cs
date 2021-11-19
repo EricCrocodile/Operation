@@ -19,7 +19,17 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 
 		public List<StudentVM> GetStudents()
 		{
-			return _studentRepo.GetStudenList();
+			//return _studentRepo.GetStudenList();
+			return new List<StudentVM>()
+			{
+				new StudentVM()
+				{
+					ID="S1030",
+					Name="eric",
+					Birthday="2019-01-01",
+					Email="a@gmail"
+				}
+			};
 		}
 
 		public bool AddStudent(StudentModel student)
@@ -37,6 +47,24 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			}
 
 			_studentRepo.CreatStudent(student.ID, student.Name, student.Birthday, student.Email);
+			return true;
+		}
+
+		public bool ModifyStudent(StudentModel student)
+		{
+			if (student == null)
+			{
+				ErrorMessage = "傳入資訊不得是空的！";
+				return false;
+			}
+			if (!StudentIsVaild(student)) return false;
+			if (_studentRepo.Find(student.ID) == null)
+			{
+				ErrorMessage = "此學號不存在，不可修改！";
+				return false;
+			}
+
+			_studentRepo.UpdateStudent(student.ID, student.Name, student.Birthday, student.Email);
 			return true;
 		}
 

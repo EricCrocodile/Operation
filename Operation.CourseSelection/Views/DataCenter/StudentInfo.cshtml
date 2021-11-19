@@ -12,7 +12,7 @@
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputGroupSelect01">學號</label>
                         </div>
-                        <input type="text" class="form-control" v-model="ID" placeholder="學號" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" v-model="ID" placeholder="學號" aria-label="Username" aria-describedby="basic-addon1" v-bind:disabled="IDIsDisable">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -24,7 +24,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-4">
                     <div class="input-group mb-1">
@@ -69,7 +68,7 @@
                     <td>{{stud.Birthday}}</td>
                     <td>{{stud.Email}}</td>
                     <td>
-                        <button type="button" class="btn btn-success" :value="stud.ID">修改</button>
+                        <button v-on:click="ModifyBtnClick(stud)" type="button" class="btn btn-success" :value="stud.ID">修改</button>
                         <button type="button" class="btn btn-danger" :value="stud.ID">刪除</button>
                     </td>
                 </tr>
@@ -92,10 +91,22 @@
                 Name: 'Eric',
                 Birthday: '2021-01-01',
                 Email: 'a@gmail.com',
+
+                IDIsDisable: false
+            },
+            watch: {
+                ButtonStatus: function() {
+                    if (students.ButtonStatus === '新增') {
+                        students.IDIsDisable = false;
+                    }
+                    else {
+                        students.IDIsDisable = true;
+                    }
+                }
             },
             methods: {
                 DoButtonEvent: function (event) {
-                    if (this.ButtonStatus === '新增') {
+                    if (students.ButtonStatus === '新增') {
                         //alert('Hello ' + this.name + '!' + event.target.tagName);
                         $.ajax({
                             url: "@Url.Content("~/DataCenter/AddStudent")",
@@ -108,29 +119,64 @@
                             },
                             dataType: "json",
                             timeout: 10000,
-                            success: function (respons) {                                
+                            success: function (respons) {
                                 if (respons.SysCode == 200) {
-                                    students.ClearFormData();
+                                    alert("新增成功!");
+                                    students.ClearFormData();                                    
                                     return;
                                 }
                                 else {
-                                    alert("錯誤訊息 : " + respons.SysMsg);
+                                    alert("新增失敗 : " + respons.SysMsg);
+                                    return;
                                 }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                                alert("[例外狀況]新增失敗 : " + XMLHttpRequest.responseText);
                             }
                         })
                     }
-                    else if (this.ButtonStatus === '修改') {
-
+                    else if (students.ButtonStatus === '修改') {
+                        $.ajax({
+                            url: "@Url.Content("~/DataCenter/ModifyStudent")",
+                            type: "post",
+                            data: {
+                                ID: this.ID,
+                                Name: this.Name,
+                                Birthday: this.Birthday,
+                                Email: this.Email,
+                            },
+                            dataType: "json",
+                            timeout: 10000,
+                            success: function (respons) {
+                                if (respons.SysCode == 200) {
+                                    alert("ID - " + students.ID + " 修改成功!");
+                                    students.ClearFormData();                                    
+                                    return;
+                                }
+                                else {
+                                    alert("修改失敗 : " + respons.SysMsg);
+                                    return;
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                                alert("[例外狀況]修改失敗 : " + XMLHttpRequest.responseText);
+                            }
+                        })
                     }
                     else {
-                        this.ButtonStatus = '新增';
+                        students.ButtonStatus = '新增';
                     }
                 },
                 ClearFormData: function () {
                     students.ID ='';
                     students.Name = '';
                     students.Birthday = '';
-                    students.Email= '';
+                    students.Email = '';
+                    students.ButtonStatus = '新增';
                 },
                 GetStudentList: function () {
                      $.ajax({
@@ -140,10 +186,22 @@
                     timeout: 10000,
                     success: function (respons) {
                         console.table(respons);
-                        this.studentlist = respons;
+                        students.studentlist = respons;
                         }
                     });
-                }
+                },
+                ModifyBtnClick: function (stud) {
+                    console.log(stud);
+
+                    students.ID = stud.ID;
+                    students.Name = stud.Name;
+                    students.Birthday = stud.Birthday;
+                    students.Email = stud.Email;
+                    students.ButtonStatus = '修改';
+                },
+                DeleteBtnClick: function (stud) {
+                    console.log(stud);
+                },
             },
             created: function () {
                 this.GetStudentList();

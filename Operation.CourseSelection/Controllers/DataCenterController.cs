@@ -31,11 +31,40 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				},JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.AllowGet);
 			}
 
 			var service = new StudentService();
 			if (!service.AddStudent(student))
+			{
+				return Json(new
+				{
+					SysCode = 408,
+					SysMsg = service.ErrorMessage
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			return Json(new
+			{
+				SysCode = 200,
+				SysMsg = "OK"
+			}, JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpPost]
+		public JsonResult ModifyStudent(StudentModel student)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Json(new
+				{
+					SysCode = 400,
+					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			var service = new StudentService();
+			if (!service.ModifyStudent(student))
 			{
 				return Json(new
 				{
