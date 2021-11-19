@@ -22,6 +22,7 @@ namespace Operation.CourseSelection.Controllers
 			return Json(studentlist, JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpPost]
 		public JsonResult AddStudent(StudentModel student)
 		{
 			if (!ModelState.IsValid)
@@ -30,7 +31,7 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				});
+				},JsonRequestBehavior.AllowGet);
 			}
 
 			var service = new StudentService();
@@ -40,14 +41,14 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 408,
 					SysMsg = service.ErrorMessage
-				});
+				}, JsonRequestBehavior.AllowGet);
 			}
 
 			return Json(new
 			{
 				SysCode = 200,
 				SysMsg = "OK"
-			});
+			}, JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult CourseInformation()

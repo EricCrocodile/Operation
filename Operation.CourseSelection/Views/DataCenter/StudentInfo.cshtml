@@ -3,97 +3,151 @@
 }
 <h2 class="">學生資訊</h2>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="input-group mb-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">學號</label>
+<div id="StudentData">
+    <form id="formdata">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">學號</label>
+                        </div>
+                        <input type="text" class="form-control" v-model="ID" placeholder="學號" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
                 </div>
-                <input type="text" class="form-control" placeholder="學號" aria-label="Username" aria-describedby="basic-addon1">
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">生日</label>
+                        </div>
+                        <input type="text" class="form-control" v-model="Birthday" placeholder="1999-01-01" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">姓名</label>
+                        </div>
+                        <input type="text" class="form-control" v-model="Name" placeholder="姓名" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Email</label>
+                        </div>
+                        <input type="text" class="form-control" v-model="Email" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <button v-on:click="DoButtonEvent" type="button" class="btn btn-info">{{ButtonStatus}}</button>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="input-group mb-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">生日</label>
-                </div>
-                <input type="text" class="form-control" placeholder="生日" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-        </div>
+    </form>
+
+    <hr />
+
+    <div id="studentTable">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">學號</th>
+                    <th scope="col">姓名</th>
+                    <th scope="col">生日</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">功能</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="stud in studentlist" :key="stud.id">
+                    <td>{{stud.ID}}</td>
+                    <td>{{stud.Name}}</td>
+                    <td>{{stud.Birthday}}</td>
+                    <td>{{stud.Email}}</td>
+                    <td>
+                        <button type="button" class="btn btn-success" :value="stud.ID">修改</button>
+                        <button type="button" class="btn btn-danger" :value="stud.ID">刪除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="input-group mb-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">姓名</label>
-                </div>
-                <input type="text" class="form-control" placeholder="姓名" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="input-group mb-1">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Email</label>
-                </div>
-                <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <div class="col-6 col-md-4">
-            <button type="button" class="btn btn-info">新增</button>
-        </div>
-    </div>
-</div>
-
-<hr />
-
-<div id="studentTable">
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">學號</th>
-                <th scope="col">姓名</th>
-                <th scope="col">生日</th>
-                <th scope="col">Email</th>
-                <th scope="col">功能</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="stud in studentlist" :key="stud.id">
-                <td>{{stud.ID}}</td>
-                <td>{{stud.Name}}</td>
-                <td>{{stud.Birthday}}</td>
-                <td>{{stud.Email}}</td>
-                <td>
-                    <button type="button" class="btn btn-success" :value="stud.ID">修改</button>
-                    <button type="button" class="btn btn-danger" :value="stud.ID">刪除</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 @section scripts{
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
     <script>
-        var app = new Vue({
-            el: "#studentTable",
+
+        var students =new Vue({
+            el: '#StudentData',
             data: {
-                studentlist :[],
+                studentlist: [],
+
+                ButtonStatus: '新增',
+                ID: 'S1234',
+                Name: 'Eric',
+                Birthday: '2021-01-01',
+                Email: 'a@gmail.com',
             },
-            created: function () {
-                $.ajax({
+            methods: {
+                DoButtonEvent: function (event) {
+                    if (this.ButtonStatus === '新增') {
+                        //alert('Hello ' + this.name + '!' + event.target.tagName);
+                        $.ajax({
+                            url: "@Url.Content("~/DataCenter/AddStudent")",
+                            type: "post",
+                            data: {
+                                ID: this.ID,
+                                Name: this.Name,
+                                Birthday: this.Birthday,
+                                Email: this.Email,
+                            },
+                            dataType: "json",
+                            timeout: 10000,
+                            success: function (respons) {                                
+                                if (respons.SysCode == 200) {
+                                    students.ClearFormData();
+                                    return;
+                                }
+                                else {
+                                    alert("錯誤訊息 : " + respons.SysMsg);
+                                }
+                            }
+                        })
+                    }
+                    else if (this.ButtonStatus === '修改') {
+
+                    }
+                    else {
+                        this.ButtonStatus = '新增';
+                    }
+                },
+                ClearFormData: function () {
+                    students.ID ='';
+                    students.Name = '';
+                    students.Birthday = '';
+                    students.Email= '';
+                },
+                GetStudentList: function () {
+                     $.ajax({
                     url: "@Url.Content("~/DataCenter/GetStudentList")",
                     type: "get",
                     dataType: "json",
                     timeout: 10000,
                     success: function (respons) {
                         console.table(respons);
-                        app.studentlist = respons;
-                    }
-                });
-            }
+                        this.studentlist = respons;
+                        }
+                    });
+                }
+            },
+            created: function () {
+                this.GetStudentList();
+            },
         })
     </script>
 }

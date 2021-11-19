@@ -21,6 +21,7 @@ namespace Operation.CourseSelection.Models.ViewModel
 		public DateTime Birthday { get; set; }
 		[Display(Name = "E-Mail")]
 		[DataType(DataType.EmailAddress)]
+		[EmailAddress(ErrorMessage = "{0} 格不正確")]
 		public string Email { get; set; }
 
 	}
