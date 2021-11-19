@@ -13,13 +13,14 @@ namespace Operation.CourseSelection.Models.ViewModel
 		[MaxLength(5, ErrorMessage = "{0}不得大於5碼字串！")]
 		[MinLength(5, ErrorMessage = "{0}不得小於5碼字串！")]
 		public string ID { get; set; }
-		[Display(Name ="姓名")]
+		[Display(Name = "姓名")]
 		public string Name { get; set; }
 		[Display(Name = "生日")]
 		[DataType(DataType.Date)]
 		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-		public string Birthday { get; set; }
+		public DateTime Birthday { get; set; }
 		[Display(Name = "E-Mail")]
+		[DataType(DataType.EmailAddress)]
 		public string Email { get; set; }
 
 	}
