@@ -158,6 +158,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CurriculumDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repository\SelectionRepository.cs" />
     <Compile Include="Models\Repository\Student.cs">
       <DependentUpon>CurriculumDB.tt</DependentUpon>
     </Compile>
