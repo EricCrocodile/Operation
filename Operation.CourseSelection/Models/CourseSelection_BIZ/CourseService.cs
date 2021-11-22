@@ -35,7 +35,7 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			{
 				new CourseVM()
 				{
-					ID = "C0001",
+					ID = "C001",
 					Name = "國文課",
 					Units = 1,
 					Locations = "A棟1樓",
@@ -62,12 +62,30 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			return true;
 		}
 
+		public bool ModifyCourse(CourseModel course)
+		{
+			if (course == null)
+			{
+				SetErrorMessage("傳入課程資訊不可以是空的！");
+				return false;
+			}
+			if (!CourseIsValid(course)) return false;
+			if (_courseRepo.Find(course.ID) == null)
+			{
+				SetErrorMessage("此課程不存在，不可修改！");
+				return false;
+			}
+
+			_courseRepo.UpdateCourse(course.ID, course.Name, course.Units, course.Locations, course.Teacher);
+			return true;
+		}
+
 		private bool CourseIsValid(CourseModel course)
 		{
 			if (!IDIsVaild(course.ID)) return false;
 			if (course.Units < 0)
 			{
-				SetErrorMessage("學份不可以為負數！");
+				SetErrorMessage("學分不可以為負數！");
 				return false;
 			}
 			return true;
@@ -83,6 +101,7 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			}
 			return true;
 		}
+
 	}
 
 	public interface ICourseRepository

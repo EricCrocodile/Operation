@@ -16,6 +16,7 @@ namespace Operation.CourseSelection.Models.ViewModel
 
 		[Display(Name = "姓名")]
 		[Required(ErrorMessage = "{0}不得為空！")]
+		[MaxLength(20, ErrorMessage = "{0}不得大於20碼字串！")]
 		public string Name { get; set; }
 
 		[Display(Name = "生日")]
@@ -26,8 +27,9 @@ namespace Operation.CourseSelection.Models.ViewModel
 
 		[Display(Name = "E-Mail")]
 		[Required(ErrorMessage = "{0}不得為空！")]
-		[DataType(DataType.EmailAddress)]
 		[EmailAddress(ErrorMessage = "{0} 格不正確")]
+		[DataType(DataType.EmailAddress)]
+		[MaxLength(50, ErrorMessage = "{0}不得大於50碼字串！")]
 		public string Email { get; set; }
 
 	}

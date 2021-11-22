@@ -121,6 +121,7 @@ namespace Operation.CourseSelection.Controllers
 			return Json(courselist, JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpPost]
 		public JsonResult AddCourse(CourseModel course)
 		{
 			if (!ModelState.IsValid)
@@ -148,5 +149,36 @@ namespace Operation.CourseSelection.Controllers
 				SysMsg = "OK"
 			}, JsonRequestBehavior.AllowGet);
 		}
+
+		[HttpPost]
+		public JsonResult ModifyCourse(CourseModel course)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Json(new
+				{
+					SysCode = 400,
+					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			var service = new CourseService();
+			if (!service.ModifyCourse(course))
+			{
+				return Json(new
+				{
+					SysCode = 408,
+					SysMsg = service.GetErrorMessage()
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			return Json(new
+			{
+				SysCode = 200,
+				SysMsg = "OK"
+			}, JsonRequestBehavior.AllowGet);
+		}
+
+
 	}
 }

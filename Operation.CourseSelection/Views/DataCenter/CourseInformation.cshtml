@@ -99,7 +99,7 @@
 
                 ID: 'C002',
                 Name: '體育課',
-                Units: 1,
+                Units: 2,
                 Locations: '籃球場',
                 Teacher: '體育老師',
 
@@ -149,8 +149,8 @@
                             success: function (respons) {
                                 if (respons.SysCode == 200) {
                                     alert("新增成功!");
-                                    students.ClearFormData();
-                                    students.GetStudentList();
+                                    CourseFuntion.ClearFormData();
+                                    CourseFuntion.GetCourseList();
                                     return;
                                 }
                                 else {
@@ -165,7 +165,36 @@
                             }
                         })
                     } else if (CourseFuntion.IsIncreasing === false) {
-
+                        $.ajax({
+                            url: "@Url.Content("~/DataCenter/ModifyCourse")",
+                            type: "post",
+                            data: {
+                                ID: CourseFuntion.ID,
+                                Name: CourseFuntion.Name,
+                                Units: CourseFuntion.Units,
+                                Locations: CourseFuntion.Locations,
+                                Teacher: CourseFuntion.Teacher,
+                            },
+                            dataType: "json",
+                            timeout: 10000,
+                            success: function (respons) {
+                                if (respons.SysCode == 200) {
+                                    alert("課號 - " + CourseFuntion.ID + " 修改成功!");
+                                    CourseFuntion.ClearFormData();
+                                    CourseFuntion.GetCourseList();
+                                    return;
+                                }
+                                else {
+                                    alert("修改失敗 : " + respons.SysMsg);
+                                    return;
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                                alert("[例外狀況]修改失敗 : " + XMLHttpRequest.responseText);
+                            }
+                        })
                     }
                 },
                 ClearFormData: function () {
@@ -174,6 +203,8 @@
                     CourseFuntion.Units = "";
                     CourseFuntion.Locations = "";
                     CourseFuntion.Teacher = "";
+
+                    CourseFuntion.IsIncreasing = true;
                 },
                 ModifyBtnClick: function (Cour) {
                     CourseFuntion.ID = Cour.ID;
