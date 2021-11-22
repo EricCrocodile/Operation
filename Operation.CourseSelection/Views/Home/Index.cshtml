@@ -4,82 +4,105 @@
 
 <h2>選課頁面</h2>
 
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">學生</label>
+<div id="CourseSelection">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">學生</label>
+                    </div>
+                    <select class="custom-select" v-model="selected">
+                        <option v-for="stu in StudentList" :value="stu.ID">
+                            {{stu.Name}}({{stu.ID}})
+                        </option>
+                    </select>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Zero</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+            </div>
+            <div class="col-6 col-md-4">
+                <button type="button" class="btn btn-dark">新增</button>
             </div>
         </div>
-        <div class="col-6 col-md-4">
-            <button type="button" class="btn btn-dark">新增</button>
+
+        <div class="row">
+            <div style="width : 20px">
+            </div>
+            <div class="col-md-8">
+                <div v-for="course in CourseList" :key="course.CourseName" class="form-check form-check-inline">
+                    <input type="checkbox" :id="course.CourseName" v-model="course.Checked" class="form-check-input">
+                    <label :for="course.CourseName">{{ course.CourseName }}</label>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="row">
-        <div style="width : 20px">
-        </div>
-        <div class="col-md-8">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                <label class="form-check-label" for="inlineCheckbox1">1</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                <label class="form-check-label" for="inlineCheckbox2">2</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
-                <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
-            </div>
-
-        </div>
-    </div>
+    <hr />
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">學號</th>
+                <th scope="col">課程</th>
+                <th scope="col">功能</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="stud in SelectionList" :key="stud.id">
+                <td>{{stud.StudentID}}</td>
+                <td>{{CoursesToString(stud.SelectCourses)}}</td>
+                <td>
+                    <button v-on:click="ModifyBtnClick(stud)" type="button" class="btn btn-success" :value="stud.ID">修改</button>
+                    <button v-on:click="DeleteBtnClick(stud)" type="button" class="btn btn-danger" :value="stud.ID">刪除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-<hr />
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@string.Format("@mdo")</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@string.Format("@fat") </td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@string.Format("@twitter")</td>
-        </tr>
-    </tbody>
-</table>
+    <script>
+        var Selection = new Vue({
+            el: '#CourseSelection',
+            data: {
+                StudentList: [
+                    { StudentID: 'S0001', Name: "Eric" },
+                ],
+                CourseList: [
+                    { CourseId: "C001", CourseName: "chinese", Checked: true },
+                    { CourseId: "C002", CourseName: "english", Checked: false },
+                    { CourseId: "C003", CourseName: "math", Checked: false },
+                ],
+                SelectionList: [
+                    {
+                        StudentID: 'S002',
+                        SelectCourses: [
+                            "chinese", "english",
+                        ]
+                    },
+                ],
 
+                selected: '',
+            },
+            methods: {
+                GetStudentList: function () {
 
+                },
+                GetCourseList: function () {
+
+                },
+                GetSelectionList: function () {
+
+                },
+                CoursesToString: function (courses) {
+                    return courses.join(',');
+                }
+            },
+            created: function () {
+                this.GetStudentList();
+            },
+        })
+    </script>
+}
 
 
 
