@@ -120,5 +120,33 @@ namespace Operation.CourseSelection.Controllers
 			var courselist = new CourseService().GetCourses();
 			return Json(courselist, JsonRequestBehavior.AllowGet);
 		}
+
+		public JsonResult AddCourse(CourseModel course)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Json(new
+				{
+					SysCode = 400,
+					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			var service = new CourseService();
+			if (!service.AddCourse(course))
+			{
+				return Json(new
+				{
+					SysCode = 408,
+					SysMsg = service.GetErrorMessage()
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			return Json(new
+			{
+				SysCode = 200,
+				SysMsg = "OK"
+			}, JsonRequestBehavior.AllowGet);
+		}
 	}
 }

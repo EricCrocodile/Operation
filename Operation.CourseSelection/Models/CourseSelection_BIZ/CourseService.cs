@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Operation.CourseSelection.Models.CourseSelection_BIZ
@@ -29,7 +30,58 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 
 		public List<CourseVM> GetCourses()
 		{
-			return _courseRepo.GetCourseList();
+			//return _courseRepo.GetCourseList();
+			return new List<CourseVM>()
+			{
+				new CourseVM()
+				{
+					ID = "C0001",
+					Name = "國文課",
+					Units = 1,
+					Locations = "A棟1樓",
+					Teacher = "Mark"
+				}
+			};
+		}
+
+		public bool AddCourse(CourseModel course)
+		{
+			if (course == null)
+			{
+				SetErrorMessage("傳入課程資訊不可以是空的！");
+				return false;
+			}
+			if (!CourseIsValid(course)) return false;
+			if (_courseRepo.Find(course.ID) != null)
+			{
+				SetErrorMessage("此課程已存在，不可重複新增！");
+				return false;
+			}
+
+			_courseRepo.CreatCourse(course.ID, course.Name, course.Units, course.Locations, course.Teacher);
+			return true;
+		}
+
+		private bool CourseIsValid(CourseModel course)
+		{
+			if (!IDIsVaild(course.ID)) return false;
+			if (course.Units < 0)
+			{
+				SetErrorMessage("學份不可以為負數！");
+				return false;
+			}
+			return true;
+		}
+
+		private bool IDIsVaild(string id)
+		{
+			Regex id_regex = new Regex(@"^(C)\d{3}$");
+			if (!id_regex.Match(id).Success)
+			{
+				SetErrorMessage("課號格式不正確!");
+				return false;
+			}
+			return true;
 		}
 	}
 

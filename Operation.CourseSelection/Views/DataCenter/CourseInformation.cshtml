@@ -13,7 +13,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">課號</label>
                     </div>
-                    <input type="text" class="form-control" placeholder="課號" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" v-model="ID" placeholder="課號" aria-label="Username" aria-describedby="basic-addon1" v-bind:disabled="IDInputDisable">
                 </div>
             </div>
             <div class="col-md-4">
@@ -21,7 +21,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">課名</label>
                     </div>
-                    <input type="text" class="form-control" placeholder="課名" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" v-model="Name" placeholder="課名" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
             <div class="col-md-2">
@@ -29,7 +29,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">學分數</label>
                     </div>
-                    <input type="text" class="form-control" placeholder="學分數" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="number" class="form-control" v-model="Units" min="0" step="1" placeholder="學分數" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">上課地點</label>
                     </div>
-                    <input type="text" class="form-control" placeholder="上課地點" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" v-model="Locations" placeholder="上課地點" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
             <div class="col-md-4">
@@ -48,7 +48,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">講師名字</label>
                     </div>
-                    <input type="text" class="form-control" placeholder="講師名字" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" v-model="Teacher" placeholder="講師名字" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
         </div>
@@ -69,6 +69,7 @@
                 <th scope="col">學分數</th>
                 <th scope="col">上課地點</th>
                 <th scope="col">講師名字</th>
+                <th scope="col">功能</th>
             </tr>
         </thead>
         <tbody>
@@ -91,17 +92,100 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
     <script>
-        var Course = new Vue({
+        var CourseFuntion = new Vue({
             el: '#CourseData',
             data: {
                 CourseList: [],
 
+                ID: 'C002',
+                Name: '體育課',
+                Units: 1,
+                Locations: '籃球場',
+                Teacher: '體育老師',
 
+                IsIncreasing: true,
                 ButtonStatus: '新增',
+                IDInputDisable: false,
+            },
+            watch: {
+                IsIncreasing: function() {
+                    if (CourseFuntion.IsIncreasing) {
+                        CourseFuntion.IDInputDisable = false;
+                        CourseFuntion.ButtonStatus = '新增';
+                    }
+                    else {
+                        CourseFuntion.IDInputDisable = true;
+                        CourseFuntion.ButtonStatus = '修改';
+                    }
+                },
             },
             methods: {
                 GetCourseList: function () {
-                    
+                     $.ajax({
+                    url: "@Url.Content("~/DataCenter/GetCourseList")",
+                    type: "get",
+                    dataType: "json",
+                    timeout: 10000,
+                    success: function (respons) {
+                        console.table(respons);
+                        CourseFuntion.CourseList = respons;
+                        }
+                    })
+                },
+                DoButtonEvent: function () {
+                    if (CourseFuntion.IsIncreasing) {
+                        $.ajax({
+                            url: "@Url.Content("~/DataCenter/AddCourse")",
+                            type: "post",
+                            data: {
+                                ID: CourseFuntion.ID,
+                                Name: CourseFuntion.Name,
+                                Units: CourseFuntion.Units,
+                                Locations: CourseFuntion.Locations,
+                                Teacher: CourseFuntion.Teacher,
+                            },
+                            dataType: "json",
+                            timeout: 10000,
+                            success: function (respons) {
+                                if (respons.SysCode == 200) {
+                                    alert("新增成功!");
+                                    students.ClearFormData();
+                                    students.GetStudentList();
+                                    return;
+                                }
+                                else {
+                                    alert("新增失敗 : " + respons.SysMsg);
+                                    return;
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                                alert("[例外狀況]新增失敗 : " + XMLHttpRequest.responseText);
+                            }
+                        })
+                    } else if (CourseFuntion.IsIncreasing === false) {
+
+                    }
+                },
+                ClearFormData: function () {
+                    CourseFuntion.ID = "";
+                    CourseFuntion.Name = "";
+                    CourseFuntion.Units = "";
+                    CourseFuntion.Locations = "";
+                    CourseFuntion.Teacher = "";
+                },
+                ModifyBtnClick: function (Cour) {
+                    CourseFuntion.ID = Cour.ID;
+                    CourseFuntion.Name = Cour.Name;
+                    CourseFuntion.Units = Cour.Units;
+                    CourseFuntion.Locations = Cour.Locations;
+                    CourseFuntion.Teacher = Cour.Teacher;
+
+                    CourseFuntion.IsIncreasing = false;
+                },
+                DeleteBtnClick: function (Cour) {
+                    console.log(Cour);
                 }
             },
             created: function () {

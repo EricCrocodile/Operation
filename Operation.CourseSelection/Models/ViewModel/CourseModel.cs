@@ -15,18 +15,22 @@ namespace Operation.CourseSelection.Models.ViewModel
 		public string ID { get; set; }
 		[Display(Name = "課名")]
 		[Required(ErrorMessage = "{0}不得為空！")]
+		[MaxLength(20, ErrorMessage = "{0}不得大於20碼字串！")]
 		public string Name { get; set; }
 
 		[Display(Name = "學分數")]
-		[Required(ErrorMessage = "{0}不得為空！")]		
+		[Required(ErrorMessage = "{0}不得為空！")]
+		[Range(typeof(int), "0", "100000")]
 		public int Units { get; set; }
 
 		[Display(Name = "上課地點")]
 		[Required(ErrorMessage = "{0}不得為空！")]
+		[MaxLength(20, ErrorMessage = "{0}不得大於20碼字串！")]
 		public string Locations { get; set; }
 
 		[Display(Name = "講師名字")]
 		[Required(ErrorMessage = "{0}不得為空！")]
+		[MaxLength(20, ErrorMessage = "{0}不得大於20碼字串！")]
 		public string Teacher { get; set; }
 	}
 }
