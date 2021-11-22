@@ -1,4 +1,5 @@
-﻿using Operation.CourseSelection.Models.ViewModel;
+﻿using Operation.CourseSelection.Models.Repository;
+using Operation.CourseSelection.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,22 +26,22 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		public StudentService()
 		{
 			//TOOD:加入IStudentRepository的繫結
-			_studentRepo = null;
+			_studentRepo = new StudentRepository();
 		}
 
 		public List<StudentVM> GetStudents()
 		{
-			//return _studentRepo.GetStudenList();
-			return new List<StudentVM>()
-			{
-				new StudentVM()
-				{
-					ID="S1030",
-					Name="eric",
-					Birthday="2019-01-01",
-					Email="a@gmail"
-				}
-			};
+			return _studentRepo.GetStudenList();
+			//return new List<StudentVM>()
+			//{
+			//	new StudentVM()
+			//	{
+			//		ID="S1030",
+			//		Name="eric",
+			//		Birthday="2019-01-01",
+			//		Email="a@gmail"
+			//	}
+			//};
 		}
 
 		public bool AddStudent(StudentModel student)

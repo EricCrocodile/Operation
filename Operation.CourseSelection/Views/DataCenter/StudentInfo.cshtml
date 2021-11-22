@@ -84,10 +84,10 @@
             data: {
                 studentlist: [],
 
-                ID: 'S1234',
-                Name: 'Eric',
-                Birthday: '2021-01-01',
-                Email: 'a@gmail.com',
+                ID: '',
+                Name: '',
+                Birthday: '',
+                Email: '',
 
                 IsIncreasing: true,
                 ButtonStatus: '新增',
@@ -218,7 +218,7 @@
                             timeout: 10000,
                             success: function (respons) {
                                 if (respons.SysCode == 200) {
-                                    alert("ID - " + students.ID + " 已刪除!");
+                                    alert("學號 - " + stud.ID + " 姓名:" + stud.Name +" 已刪除!");
                                     students.ClearFormData();
                                     students.GetStudentList();
                                     return;
