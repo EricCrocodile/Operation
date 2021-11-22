@@ -80,6 +80,25 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			return true;
 		}
 
+		public bool DeleteCourse(string courseId)
+		{
+			if (string.IsNullOrEmpty(courseId))
+			{
+				SetErrorMessage("課號不可空白！");
+				return false;
+			}
+
+			if (!IDIsVaild(courseId)) return false;
+			if (_courseRepo.Find(courseId) == null)
+			{
+				SetErrorMessage("此課號不存在，無法刪除！");
+				return false;
+			}
+
+			_courseRepo.DeleteCourse(courseId);
+			return true;
+		}
+
 		private bool CourseIsValid(CourseModel course)
 		{
 			if (!IDIsVaild(course.ID)) return false;
@@ -101,7 +120,6 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			}
 			return true;
 		}
-
 	}
 
 	public interface ICourseRepository

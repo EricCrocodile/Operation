@@ -179,6 +179,34 @@ namespace Operation.CourseSelection.Controllers
 			}, JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpPost]
+		public JsonResult DeleteCourse(string CourseId)
+		{
+			if (string.IsNullOrEmpty(CourseId))
+			{
+				ModelState.AddModelError("課號", "課號不可空白！");
+				return Json(new
+				{
+					SysCode = 400,
+					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
+				}, JsonRequestBehavior.AllowGet);
+			}
 
+			var service = new CourseService();
+			if (!service.DeleteCourse(CourseId))
+			{
+				return Json(new
+				{
+					SysCode = 408,
+					SysMsg = service.GetErrorMessage()
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			return Json(new
+			{
+				SysCode = 200,
+				SysMsg = "OK"
+			}, JsonRequestBehavior.AllowGet);
+		}
 	}
 }

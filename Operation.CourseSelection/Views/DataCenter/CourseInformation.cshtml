@@ -121,16 +121,16 @@
             },
             methods: {
                 GetCourseList: function () {
-                     $.ajax({
-                    url: "@Url.Content("~/DataCenter/GetCourseList")",
-                    type: "get",
-                    dataType: "json",
-                    timeout: 10000,
-                    success: function (respons) {
-                        console.table(respons);
-                        CourseFuntion.CourseList = respons;
+                    $.ajax({
+                        url: "@Url.Content("~/DataCenter/GetCourseList")",
+                        type: "get",
+                        dataType: "json",
+                        timeout: 10000,
+                        success: function (respons) {
+                            console.table(respons);
+                            CourseFuntion.CourseList = respons;
                         }
-                    })
+                    });
                 },
                 DoButtonEvent: function () {
                     if (CourseFuntion.IsIncreasing) {
@@ -163,7 +163,7 @@
                                 console.log(errorThrown);
                                 alert("[例外狀況]新增失敗 : " + XMLHttpRequest.responseText);
                             }
-                        })
+                        });
                     } else if (CourseFuntion.IsIncreasing === false) {
                         $.ajax({
                             url: "@Url.Content("~/DataCenter/ModifyCourse")",
@@ -194,7 +194,7 @@
                                 console.log(errorThrown);
                                 alert("[例外狀況]修改失敗 : " + XMLHttpRequest.responseText);
                             }
-                        })
+                        });
                     }
                 },
                 ClearFormData: function () {
@@ -217,6 +217,40 @@
                 },
                 DeleteBtnClick: function (Cour) {
                     console.log(Cour);
+
+                    var r = confirm("是否刪除 課號: " + Cour.ID + " 課程名稱:" + Cour.Name + " ?");
+                    if (r == true) {
+                        $.ajax({
+                            url: "@Url.Content("~/DataCenter/DeleteCourse")",
+                            type: "post",
+                            data: {
+                                CourseId: CourseFuntion.ID,
+                            },
+                            dataType: "json",
+                            timeout: 10000,
+                            success: function (respons) {
+                                if (respons.SysCode == 200) {
+                                    alert("課號 - " + students.ID + " 已刪除!");
+                                    CourseFuntion.ClearFormData();
+                                    CourseFuntion.GetCourseList();
+                                    return;
+                                }
+                                else {
+                                    alert("刪除失敗 : " + respons.SysMsg);
+                                    return;
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                                alert("[例外狀況]刪除失敗 : " + XMLHttpRequest.responseText);
+                                students.GetStudentList();
+                            }
+                        });
+                    }
+                    else {
+                        console.log('NO');
+                    }
                 }
             },
             created: function () {
