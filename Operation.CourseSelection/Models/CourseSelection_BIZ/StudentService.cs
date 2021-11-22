@@ -67,6 +67,24 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			_studentRepo.UpdateStudent(student.ID, student.Name, student.Birthday, student.Email);
 			return true;
 		}
+		public bool DeleteStudent(string studentId)
+		{
+			if (string.IsNullOrEmpty(studentId))
+			{
+				ErrorMessage = "學號不可空白！";
+				return false;
+			}
+
+			if (!IDIsVaild(studentId)) return false;
+			if (_studentRepo.Find(studentId) == null)
+			{
+				ErrorMessage = "此學號不存在，無法刪除！";
+				return false;
+			}
+
+			_studentRepo.DeleteStudent(studentId);
+			return true;
+		}
 
 		private bool StudentIsVaild(StudentModel student)
 		{
@@ -89,6 +107,7 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			}
 			return true;
 		}
+
 	}
 
 	interface IStudentRepository

@@ -69,7 +69,7 @@
                     <td>{{stud.Email}}</td>
                     <td>
                         <button v-on:click="ModifyBtnClick(stud)" type="button" class="btn btn-success" :value="stud.ID">修改</button>
-                        <button type="button" class="btn btn-danger" :value="stud.ID">刪除</button>
+                        <button v-on:click="DeleteBtnClick(stud)" type="button" class="btn btn-danger" :value="stud.ID">刪除</button>
                     </td>
                 </tr>
             </tbody>
@@ -86,27 +86,30 @@
             data: {
                 studentlist: [],
 
-                ButtonStatus: '新增',
                 ID: 'S1234',
                 Name: 'Eric',
                 Birthday: '2021-01-01',
                 Email: 'a@gmail.com',
 
+                IsIncreasing: true,
+                ButtonStatus: '新增',
                 IDIsDisable: false
             },
             watch: {
-                ButtonStatus: function() {
-                    if (students.ButtonStatus === '新增') {
+                IsIncreasing: function() {
+                    if (students.IsIncreasing) {
                         students.IDIsDisable = false;
+                        students.ButtonStatus= '新增';
                     }
                     else {
                         students.IDIsDisable = true;
+                        students.ButtonStatus = '修改';
                     }
                 }
             },
             methods: {
                 DoButtonEvent: function (event) {
-                    if (students.ButtonStatus === '新增') {
+                    if (students.IsIncreasing) {
                         //alert('Hello ' + this.name + '!' + event.target.tagName);
                         $.ajax({
                             url: "@Url.Content("~/DataCenter/AddStudent")",
@@ -122,7 +125,7 @@
                             success: function (respons) {
                                 if (respons.SysCode == 200) {
                                     alert("新增成功!");
-                                    students.ClearFormData();                                    
+                                    students.ClearFormData();
                                     return;
                                 }
                                 else {
@@ -137,7 +140,7 @@
                             }
                         })
                     }
-                    else if (students.ButtonStatus === '修改') {
+                    else if (students.IsIncreasing === false) {
                         $.ajax({
                             url: "@Url.Content("~/DataCenter/ModifyStudent")",
                             type: "post",
@@ -152,7 +155,7 @@
                             success: function (respons) {
                                 if (respons.SysCode == 200) {
                                     alert("ID - " + students.ID + " 修改成功!");
-                                    students.ClearFormData();                                    
+                                    students.ClearFormData();
                                     return;
                                 }
                                 else {
@@ -168,7 +171,7 @@
                         })
                     }
                     else {
-                        students.ButtonStatus = '新增';
+                        students.IsIncreasing = true;
                     }
                 },
                 ClearFormData: function () {
@@ -176,7 +179,7 @@
                     students.Name = '';
                     students.Birthday = '';
                     students.Email = '';
-                    students.ButtonStatus = '新增';
+                    students.IsIncreasing = true;
                 },
                 GetStudentList: function () {
                      $.ajax({
@@ -197,10 +200,41 @@
                     students.Name = stud.Name;
                     students.Birthday = stud.Birthday;
                     students.Email = stud.Email;
-                    students.ButtonStatus = '修改';
+                    students.IsIncreasing = false;
                 },
                 DeleteBtnClick: function (stud) {
                     console.log(stud);
+
+                    var r = confirm("是否刪除 學號: " + stud.ID + " 姓名:" + stud.Name + " ?");
+                    if (r == true) {
+                        $.ajax({
+                            url: "@Url.Content("~/DataCenter/DeleteStudent")",
+                            type: "post",
+                            data: {
+                                studentId: stud.ID,
+                            },
+                            dataType: "json",
+                            timeout: 10000,
+                            success: function (respons) {
+                                if (respons.SysCode == 200) {
+                                    alert("ID - " + students.ID + " 已刪除!");
+                                    students.ClearFormData();
+                                    return;
+                                }
+                                else {
+                                    alert("刪除失敗 : " + respons.SysMsg);
+                                    return;
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                                alert("[例外狀況]刪除失敗 : " + XMLHttpRequest.responseText);
+                            }
+                        })
+                    } else {
+                        console.log("NO");
+                    }
                 },
             },
             created: function () {

@@ -80,6 +80,36 @@ namespace Operation.CourseSelection.Controllers
 			}, JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpPost]
+		public JsonResult DeleteStudent(string studentId)
+		{
+			if (string.IsNullOrEmpty(studentId))
+			{
+				ModelState.AddModelError("學號", "學號不可空白！");
+				return Json(new
+				{
+					SysCode = 400,
+					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			var service = new StudentService();
+			if (!service.DeleteStudent(studentId))
+			{
+				return Json(new
+				{
+					SysCode = 408,
+					SysMsg = service.ErrorMessage
+				}, JsonRequestBehavior.AllowGet);
+			}
+
+			return Json(new
+			{
+				SysCode = 200,
+				SysMsg = "OK"
+			}, JsonRequestBehavior.AllowGet);
+		}
+
 		public ActionResult CourseInformation()
 		{
 			return View();
