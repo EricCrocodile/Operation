@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a6cb82bcd15440d8a9718f506303d531" Name="Diagram1" ZoomLevel="122">
+        <EntityTypeShape EntityType="CurriculumDBModel.Course" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="CurriculumDBModel.Student" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="CurriculumDBModel.Student_CourseSelection" Width="2.125" PointX="3.5" PointY="1.5" />
+        <AssociationConnector Association="CurriculumDBModel.FK_Student_CourseSelection_Course" />
+        <AssociationConnector Association="CurriculumDBModel.FK_Student_CourseSelection_Student" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
