@@ -13,14 +13,14 @@
                         <label class="input-group-text">學生</label>
                     </div>
                     <select class="custom-select" v-model="selected">
-                        <option v-for="stu in StudentList" :value="stu.ID">
-                            {{stu.Name}}({{stu.ID}})
+                        <option v-for="stu in StudentList" :value="stu.StudentID">
+                            {{stu.Name}}({{stu.StudentID}})
                         </option>
                     </select>
                 </div>
             </div>
             <div class="col-6 col-md-4">
-                <button type="button" class="btn btn-dark">新增</button>
+                <button v-on:click="SelectCourse" type="button" class="btn btn-dark">新增</button>
             </div>
         </div>
 
@@ -64,34 +64,98 @@
         var Selection = new Vue({
             el: '#CourseSelection',
             data: {
-                StudentList: [
-                    { StudentID: 'S0001', Name: "Eric" },
-                ],
-                CourseList: [
-                    { CourseId: "C001", CourseName: "chinese", Checked: true },
-                    { CourseId: "C002", CourseName: "english", Checked: false },
-                    { CourseId: "C003", CourseName: "math", Checked: false },
-                ],
-                SelectionList: [
-                    {
-                        StudentID: 'S002',
-                        SelectCourses: [
-                            "chinese", "english",
-                        ]
-                    },
-                ],
+                StudentList: [],
+                CourseList: [],
+                SelectionList: [],
 
                 selected: '',
             },
+            watch: {
+                selected: function () {
+                    console.log(Selection.selected);
+                    Selection.GetCourseList(Selection.selected);
+                }
+            },
             methods: {
                 GetStudentList: function () {
-
+                    $.ajax({
+                        url: "@Url.Content("~/Home/GetStudentList")",
+                        type: "get",
+                        dataType: "json",
+                        timeout: 10000,
+                        success: function (respons) {
+                            console.table(respons);
+                            Selection.StudentList = respons;
+                        }
+                    });
                 },
-                GetCourseList: function () {
-
+                GetCourseList: function (ID) {
+                    $.ajax({
+                        url: "@Url.Content("~/Home/GetCourseCheckList")",
+                        type: "post",
+                        data: {
+                            studentId: ID,
+                        },
+                        dataType: "json",
+                        timeout: 10000,
+                        success: function (respons) {
+                            console.table(respons);
+                            Selection.CourseList = respons;
+                        }
+                    });
                 },
                 GetSelectionList: function () {
+                    $.ajax({
+                        url: "@Url.Content("~/Home/GetSelectionList")",
+                        type: "get",
+                        dataType: "json",
+                        timeout: 10000,
+                        success: function (respons) {
+                            console.table(respons);
+                            Selection.SelectionList = respons;
+                        }
+                    });
+                },
+                SelectCourse: function () {
+                    var checked = [];
+                    for (var i = 0; i < Selection.CourseList.length; i++) {
+                        if (Selection.CourseList[i].Checked) {
+                            checked.push(Selection.CourseList[i].CourseId);
+                        }
+                    }
+                    console.log(Selection.selected)
+                    console.log(checked );
 
+                    $.ajax({
+                        url: "@Url.Content("~/Home/SelectCourse")",
+                        type: "post",
+                        data: {
+                            StudentID: Selection.selected,
+                            SelectCourseID: checked
+                        },
+                        dataType: "json",
+                        timeout: 10000,
+                        success: function (respons) {
+                            if (respons.SysCode == 200) {
+                                alert("學號 - " + Selection.selected + " 選課成功!");
+                                Selection.GetCourseList(Selection.selected);
+                                Selection.GetSelectionList();
+                                return;
+                            }
+                            else {
+                                alert("選課失敗 : " + respons.SysMsg);
+                                return;
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                            alert("[例外狀況]選課失敗 : " + XMLHttpRequest.responseText);
+                        }
+                    });
+                },
+                ModifyBtnClick: function (student) {
+                    Selection.selected = student.StudentID;
                 },
                 CoursesToString: function (courses) {
                     return courses.join(',');
@@ -99,6 +163,7 @@
             },
             created: function () {
                 this.GetStudentList();
+                this.GetSelectionList();
             },
         })
     </script>

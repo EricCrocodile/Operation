@@ -3,6 +3,7 @@ using Operation.CourseSelection.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Operation.CourseSelection.Models.CourseSelection_BIZ
@@ -27,7 +28,7 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		public CourseSelectionService()
 		{
 			//TODO: 加入ICourseSelectionRepository的繫結
-			_selectionRepo = null;
+			_selectionRepo = new SelectionRepository();
 			_studentRepo = new StudentRepository();
 			_courseRepo = new CourseRepository();
 		}
@@ -50,6 +51,40 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		public List<SelectionVM> GetSelectionList()
 		{
 			return _selectionRepo.GetStudentCourseList();
+		}
+
+		public bool SelectCourse(SelectionModel selection)
+		{
+			if (!StudentIDIsVaild(selection.StudentID)) return false;
+			foreach (var item in selection.SelectCourseID)
+			{
+				if (!CourseIDIsVaild(item)) return false;
+			}
+
+			_selectionRepo.UpdateSelection(selection.StudentID, selection.SelectCourseID);
+			return true;
+		}
+
+		private bool StudentIDIsVaild(string id)
+		{
+			Regex id_regex = new Regex(@"^(S)\d{4}$");
+			if (!id_regex.Match(id).Success)
+			{
+				SetErrorMessage("學號格式不正確!");
+				return false;
+			}
+			return true;
+		}
+
+		private bool CourseIDIsVaild(string id)
+		{
+			Regex id_regex = new Regex(@"^(C)\d{3}$");
+			if (!id_regex.Match(id).Success)
+			{
+				SetErrorMessage("課號格式不正確!");
+				return false;
+			}
+			return true;
 		}
 	}
 

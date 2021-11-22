@@ -169,6 +169,7 @@
     <Compile Include="Models\ViewModel\CourseCheckVM.cs" />
     <Compile Include="Models\ViewModel\CourseModel.cs" />
     <Compile Include="Models\ViewModel\CourseVM.cs" />
+    <Compile Include="Models\ViewModel\SelectionModel.cs" />
     <Compile Include="Models\ViewModel\SelectionVM.cs" />
     <Compile Include="Models\ViewModel\StudentModel.cs" />
     <Compile Include="Models\ViewModel\StudentSelecterVM.cs" />

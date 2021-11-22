@@ -1,4 +1,5 @@
 ﻿using Operation.CourseSelection.Models.CourseSelection_BIZ;
+using Operation.CourseSelection.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,35 @@ namespace Operation.CourseSelection.Controllers
 		{
 			var studens = new CourseSelectionService().GetSelectionList();
 			return Json(studens, JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpPost]
+		public JsonResult SelectCourse(SelectionModel selection )
+		{
+			if (!ModelState.IsValid)
+			{
+				return Json(new
+				{
+					SysCode = 400,
+					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
+				}, JsonRequestBehavior.DenyGet);
+			}
+
+			var service = new CourseSelectionService();
+			if (!service.SelectCourse(selection))
+			{
+				return Json(new
+				{
+					SysCode = 408,
+					SysMsg = service.GetErrorMessage()
+				}, JsonRequestBehavior.DenyGet);
+			}
+
+			return Json(new
+			{
+				SysCode = 200,
+				SysMsg = "OK"
+			}, JsonRequestBehavior.DenyGet);
 		}
 
 		public ActionResult About()

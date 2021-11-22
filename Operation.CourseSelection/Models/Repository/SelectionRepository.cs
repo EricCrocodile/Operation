@@ -21,7 +21,7 @@ namespace Operation.CourseSelection.Models.Repository
 					.Join(DB.Courses,
 					p => p,
 					e => e.ID,
-					(p, e) => e.Name);
+					(p, e) => e.CourseID);
 
 				return entity.ToArray();
 			}
@@ -48,10 +48,10 @@ namespace Operation.CourseSelection.Models.Repository
 					(p, e) => new
 					{
 						studentId = p.studentId,
-						courseName = e.CourseID
+						courseName = e.Name
 					});
 
-				var students = entityList.Select(p => p.studentId).ToList();
+				var students = entityList.Select(p => p.studentId).Distinct().ToList();
 
 				students.ForEach(stu =>
 				{
@@ -76,8 +76,8 @@ namespace Operation.CourseSelection.Models.Repository
 				var student = DB.Students.Where(p => p.StudentID == studentId)
 					.FirstOrDefault();
 
-				ClearSelection(DB,student.ID);
-				AddSelection(DB, student.ID, courses);				
+				ClearSelection(DB, student.ID);
+				AddSelection(DB, student.ID, courses);
 			}
 		}
 
