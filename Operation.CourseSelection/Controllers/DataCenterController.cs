@@ -31,7 +31,7 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			var service = new StudentService();
@@ -41,14 +41,14 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 408,
 					SysMsg = service.GetErrorMessage()
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			return Json(new
 			{
 				SysCode = 200,
 				SysMsg = "OK"
-			}, JsonRequestBehavior.AllowGet);
+			}, JsonRequestBehavior.DenyGet);
 		}
 
 		[HttpPost]
@@ -60,7 +60,7 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			var service = new StudentService();
@@ -70,14 +70,14 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 408,
 					SysMsg = service.GetErrorMessage()
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			return Json(new
 			{
 				SysCode = 200,
 				SysMsg = "OK"
-			}, JsonRequestBehavior.AllowGet);
+			}, JsonRequestBehavior.DenyGet);
 		}
 
 		[HttpPost]
@@ -90,7 +90,7 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			var service = new StudentService();
@@ -100,14 +100,14 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 408,
 					SysMsg = service.GetErrorMessage()
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			return Json(new
 			{
 				SysCode = 200,
 				SysMsg = "OK"
-			}, JsonRequestBehavior.AllowGet);
+			}, JsonRequestBehavior.DenyGet);
 		}
 
 		public ActionResult CourseInformation()
@@ -130,7 +130,7 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			var service = new CourseService();
@@ -140,14 +140,14 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 408,
 					SysMsg = service.GetErrorMessage()
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			return Json(new
 			{
 				SysCode = 200,
 				SysMsg = "OK"
-			}, JsonRequestBehavior.AllowGet);
+			}, JsonRequestBehavior.DenyGet);
 		}
 
 		[HttpPost]
@@ -159,7 +159,7 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			var service = new CourseService();
@@ -169,14 +169,14 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 408,
 					SysMsg = service.GetErrorMessage()
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			return Json(new
 			{
 				SysCode = 200,
 				SysMsg = "OK"
-			}, JsonRequestBehavior.AllowGet);
+			}, JsonRequestBehavior.DenyGet);
 		}
 
 		[HttpPost]
@@ -189,7 +189,7 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 400,
 					SysMsg = ModelState.Values.FirstOrDefault(p => p.Errors.Count > 0)?.Errors.FirstOrDefault()?.ErrorMessage
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			var service = new CourseService();
@@ -199,14 +199,14 @@ namespace Operation.CourseSelection.Controllers
 				{
 					SysCode = 408,
 					SysMsg = service.GetErrorMessage()
-				}, JsonRequestBehavior.AllowGet);
+				}, JsonRequestBehavior.DenyGet);
 			}
 
 			return Json(new
 			{
 				SysCode = 200,
 				SysMsg = "OK"
-			}, JsonRequestBehavior.AllowGet);
+			}, JsonRequestBehavior.DenyGet);
 		}
 	}
 }
