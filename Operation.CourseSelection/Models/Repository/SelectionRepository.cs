@@ -77,6 +77,9 @@ namespace Operation.CourseSelection.Models.Repository
 					.FirstOrDefault();
 
 				ClearSelection(DB, student.ID);
+
+				if (courses == null || courses.Length == 0) return;
+
 				AddSelection(DB, student.ID, courses);
 			}
 		}

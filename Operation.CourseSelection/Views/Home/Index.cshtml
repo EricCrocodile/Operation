@@ -154,6 +154,41 @@
                         }
                     });
                 },
+                DeleteBtnClick: function (student) {
+                    var r = confirm("是否刪除 學號: " + student.StudentID + " 的選課?");
+                    if (r == true) {
+                        $.ajax({
+                            url: "@Url.Content("~/Home/SelectCourse")",
+                            type: "post",
+                            data: {
+                                StudentID: student.StudentID,
+                                SelectCourseID: [],
+                            },
+                            dataType: "json",
+                            timeout: 10000,
+                            success: function (respons) {
+                                if (respons.SysCode == 200) {
+                                    alert("學號 - " + student.StudentID + " 刪除成功!");
+                                    Selection.GetCourseList(Selection.selected);
+                                    Selection.GetSelectionList();
+                                    return;
+                                }
+                                else {
+                                    alert("刪除失敗 : " + respons.SysMsg);
+                                    return;
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                                alert("[例外狀況]刪除失敗 : " + XMLHttpRequest.responseText);
+                            }
+                        });
+                    }
+                    else {
+                        console.log("NO");
+                    }
+                },
                 ModifyBtnClick: function (student) {
                     Selection.selected = student.StudentID;
                 },

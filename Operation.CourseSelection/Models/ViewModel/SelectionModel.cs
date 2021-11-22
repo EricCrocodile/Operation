@@ -12,8 +12,7 @@ namespace Operation.CourseSelection.Models.ViewModel
 		[Required(ErrorMessage = "{0}不得為空！")]
 		[MaxLength(5, ErrorMessage = "{0}不得大於5碼字串！")]
 		[MinLength(5, ErrorMessage = "{0}不得小於5碼字串！")]
-		public string StudentID { get; set; }
-		[Required]
+		public string StudentID { get; set; }		
 		public string[] SelectCourseID { get; set; }
 	}
 }

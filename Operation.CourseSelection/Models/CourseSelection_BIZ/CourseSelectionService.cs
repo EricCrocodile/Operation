@@ -56,10 +56,15 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		public bool SelectCourse(SelectionModel selection)
 		{
 			if (!StudentIDIsVaild(selection.StudentID)) return false;
-			foreach (var item in selection.SelectCourseID)
+
+			if (selection.SelectCourseID != null)
 			{
-				if (!CourseIDIsVaild(item)) return false;
+				foreach (var item in selection.SelectCourseID)
+				{
+					if (!CourseIDIsVaild(item)) return false;
+				}
 			}
+
 
 			_selectionRepo.UpdateSelection(selection.StudentID, selection.SelectCourseID);
 			return true;
