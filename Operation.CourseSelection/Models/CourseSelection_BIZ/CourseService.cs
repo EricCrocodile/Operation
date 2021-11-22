@@ -1,4 +1,5 @@
-﻿using Operation.CourseSelection.Models.ViewModel;
+﻿using Operation.CourseSelection.Models.Repository;
+using Operation.CourseSelection.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,23 +26,23 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		public CourseService()
 		{
 			//TODO:加入ICourseRepository的繫結
-			_courseRepo = null;
+			_courseRepo = new CourseRepository();
 		}
 
 		public List<CourseVM> GetCourses()
 		{
-			//return _courseRepo.GetCourseList();
-			return new List<CourseVM>()
-			{
-				new CourseVM()
-				{
-					ID = "C001",
-					Name = "國文課",
-					Units = 1,
-					Locations = "A棟1樓",
-					Teacher = "Mark"
-				}
-			};
+			return _courseRepo.GetCourseList();
+			//return new List<CourseVM>()
+			//{
+			//	new CourseVM()
+			//	{
+			//		ID = "C001",
+			//		Name = "國文課",
+			//		Units = 1,
+			//		Locations = "A棟1樓",
+			//		Teacher = "Mark"
+			//	}
+			//};
 		}
 
 		public bool AddCourse(CourseModel course)
@@ -126,8 +127,8 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 	{
 		List<CourseVM> GetCourseList();
 		CourseVM Find(string id);
-		void CreatCourse(string id, string name, int units, string Locations, string Teacher);
-		void UpdateCourse(string id, string name, int units, string Locations, string Teacher);
+		void CreatCourse(string id, string name, int units, string locations, string teacher);
+		void UpdateCourse(string id, string name, int units, string locations, string teacher);
 		void DeleteCourse(string id);
 	}
 }

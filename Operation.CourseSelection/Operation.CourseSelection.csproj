@@ -141,6 +141,7 @@
     <Compile Include="Models\Repository\Course.cs">
       <DependentUpon>CurriculumDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repository\CourseRepository.cs" />
     <Compile Include="Models\Repository\CurriculumDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -159,6 +160,7 @@
     <Compile Include="Models\Repository\Student.cs">
       <DependentUpon>CurriculumDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repository\StudentRepository.cs" />
     <Compile Include="Models\Repository\Student_CourseSelection.cs">
       <DependentUpon>CurriculumDB.tt</DependentUpon>
     </Compile>

@@ -97,11 +97,11 @@
             data: {
                 CourseList: [],
 
-                ID: 'C002',
-                Name: '體育課',
-                Units: 2,
-                Locations: '籃球場',
-                Teacher: '體育老師',
+                ID: '',
+                Name: '',
+                Units: 0,
+                Locations: '',
+                Teacher: '',
 
                 IsIncreasing: true,
                 ButtonStatus: '新增',
@@ -224,13 +224,13 @@
                             url: "@Url.Content("~/DataCenter/DeleteCourse")",
                             type: "post",
                             data: {
-                                CourseId: CourseFuntion.ID,
+                                CourseId: Cour.ID,
                             },
                             dataType: "json",
                             timeout: 10000,
                             success: function (respons) {
                                 if (respons.SysCode == 200) {
-                                    alert("課號 - " + students.ID + " 已刪除!");
+                                    alert("課號 - " + Cour.ID + " 課程名稱 - " + Cour.Name +  " 已刪除!");
                                     CourseFuntion.ClearFormData();
                                     CourseFuntion.GetCourseList();
                                     return;
