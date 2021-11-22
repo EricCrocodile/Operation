@@ -40,7 +40,7 @@ namespace Operation.CourseSelection.Controllers
 				return Json(new
 				{
 					SysCode = 408,
-					SysMsg = service.ErrorMessage
+					SysMsg = service.GetErrorMessage()
 				}, JsonRequestBehavior.AllowGet);
 			}
 
@@ -69,7 +69,7 @@ namespace Operation.CourseSelection.Controllers
 				return Json(new
 				{
 					SysCode = 408,
-					SysMsg = service.ErrorMessage
+					SysMsg = service.GetErrorMessage()
 				}, JsonRequestBehavior.AllowGet);
 			}
 
@@ -99,7 +99,7 @@ namespace Operation.CourseSelection.Controllers
 				return Json(new
 				{
 					SysCode = 408,
-					SysMsg = service.ErrorMessage
+					SysMsg = service.GetErrorMessage()
 				}, JsonRequestBehavior.AllowGet);
 			}
 
@@ -113,6 +113,12 @@ namespace Operation.CourseSelection.Controllers
 		public ActionResult CourseInformation()
 		{
 			return View();
+		}
+
+		public JsonResult GetCourseList()
+		{
+			var courselist = new CourseService().GetCourses();
+			return Json(courselist, JsonRequestBehavior.AllowGet);
 		}
 	}
 }

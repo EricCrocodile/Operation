@@ -9,11 +9,22 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 {
 	public class StudentService
 	{
-		IStudentRepository _studentRepo;
-		public string ErrorMessage { get; set; }
+		readonly IStudentRepository _studentRepo;
+		private string errorMessage;
+
+		public string GetErrorMessage()
+		{
+			return errorMessage;
+		}
+
+		private void SetErrorMessage(string value)
+		{
+			errorMessage = value;
+		}
+
 		public StudentService()
 		{
-			//todo 加入IStudentRepository的繫結
+			//TOOD:加入IStudentRepository的繫結
 			_studentRepo = null;
 		}
 
@@ -36,13 +47,13 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		{
 			if (student == null)
 			{
-				ErrorMessage = "傳入資訊不得是空的！";
+				SetErrorMessage("傳入資訊不得是空的！");
 				return false;
 			}
 			if (!StudentIsVaild(student)) return false;
 			if (_studentRepo.Find(student.ID) != null)
 			{
-				ErrorMessage = "此學號已存在，不可重複新增！";
+				SetErrorMessage("此學號已存在，不可重複新增！");
 				return false;
 			}
 
@@ -54,13 +65,13 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		{
 			if (student == null)
 			{
-				ErrorMessage = "傳入資訊不得是空的！";
+				SetErrorMessage("傳入資訊不得是空的！");
 				return false;
 			}
 			if (!StudentIsVaild(student)) return false;
 			if (_studentRepo.Find(student.ID) == null)
 			{
-				ErrorMessage = "此學號不存在，不可修改！";
+				SetErrorMessage("此學號不存在，不可修改！");
 				return false;
 			}
 
@@ -71,14 +82,14 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 		{
 			if (string.IsNullOrEmpty(studentId))
 			{
-				ErrorMessage = "學號不可空白！";
+				SetErrorMessage("學號不可空白！");
 				return false;
 			}
 
 			if (!IDIsVaild(studentId)) return false;
 			if (_studentRepo.Find(studentId) == null)
 			{
-				ErrorMessage = "此學號不存在，無法刪除！";
+				SetErrorMessage("此學號不存在，無法刪除！");
 				return false;
 			}
 
@@ -91,7 +102,7 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			if (!IDIsVaild(student.ID)) return false;
 			if (student.Birthday > DateTime.Now)
 			{
-				ErrorMessage = "生日不可在今天之後！";
+				SetErrorMessage("生日不可在今天之後！");
 				return false;
 			}
 			return true;
@@ -102,7 +113,7 @@ namespace Operation.CourseSelection.Models.CourseSelection_BIZ
 			Regex id_regex = new Regex(@"^(S)\d{4}$");
 			if (!id_regex.Match(id).Success)
 			{
-				ErrorMessage = "學號格式不正確!";
+				SetErrorMessage("學號格式不正確!");
 				return false;
 			}
 			return true;

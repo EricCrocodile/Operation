@@ -4,49 +4,47 @@
 <h2 class="">學生資訊</h2>
 
 <div id="StudentData">
-    <form id="formdata">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">學號</label>
-                        </div>
-                        <input type="text" class="form-control" v-model="ID" placeholder="學號" aria-label="Username" aria-describedby="basic-addon1" v-bind:disabled="IDIsDisable">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">學號</label>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">生日</label>
-                        </div>
-                        <input type="text" class="form-control" v-model="Birthday" placeholder="1999-01-01" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
+                    <input type="text" class="form-control" v-model="ID" placeholder="學號" aria-label="Username" aria-describedby="basic-addon1" v-bind:disabled="IDIsDisable">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">姓名</label>
-                        </div>
-                        <input type="text" class="form-control" v-model="Name" placeholder="姓名" aria-label="Username" aria-describedby="basic-addon1">
+            <div class="col-md-4">
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">生日</label>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Email</label>
-                        </div>
-                        <input type="text" class="form-control" v-model="Email" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
-                </div>
-                <div class="col-6 col-md-4">
-                    <button v-on:click="DoButtonEvent" type="button" class="btn btn-info">{{ButtonStatus}}</button>
+                    <input type="text" class="form-control" v-model="Birthday" placeholder="1999-01-01" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
         </div>
-    </form>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">姓名</label>
+                    </div>
+                    <input type="text" class="form-control" v-model="Name" placeholder="姓名" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Email</label>
+                    </div>
+                    <input type="text" class="form-control" v-model="Email" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <button v-on:click="DoButtonEvent" type="button" class="btn btn-info">{{ButtonStatus}}</button>
+            </div>
+        </div>
+    </div>
 
     <hr />
 
@@ -126,6 +124,7 @@
                                 if (respons.SysCode == 200) {
                                     alert("新增成功!");
                                     students.ClearFormData();
+                                    students.GetStudentList();
                                     return;
                                 }
                                 else {
@@ -156,6 +155,7 @@
                                 if (respons.SysCode == 200) {
                                     alert("ID - " + students.ID + " 修改成功!");
                                     students.ClearFormData();
+                                    students.GetStudentList();
                                     return;
                                 }
                                 else {
@@ -172,6 +172,7 @@
                     }
                     else {
                         students.IsIncreasing = true;
+                        students.GetStudentList();
                     }
                 },
                 ClearFormData: function () {
@@ -219,6 +220,7 @@
                                 if (respons.SysCode == 200) {
                                     alert("ID - " + students.ID + " 已刪除!");
                                     students.ClearFormData();
+                                    students.GetStudentList();
                                     return;
                                 }
                                 else {
@@ -230,6 +232,7 @@
                                 console.log(textStatus);
                                 console.log(errorThrown);
                                 alert("[例外狀況]刪除失敗 : " + XMLHttpRequest.responseText);
+                                students.GetStudentList();
                             }
                         })
                     } else {
